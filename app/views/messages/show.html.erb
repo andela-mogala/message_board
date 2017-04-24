@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="message-show">
+      <% if @message %>
+        <h2><%= @message.title %></h2>
+        <p class="message-posted-by">Posted by: <%= @message.user.email %> <%= time_ago_in_words(@message.created_at) %> ago</p>
+        <p class="message-desc"><%= @message.description %></p>
+
+        <h3>Comments:</h3>
+        <%= render @message.comments %>
+
+        <h3 class="reply-to-msg">Reply to Message</h3>
+        <%= render 'comments/form' %>
+
+        <div class="links btn-group">
+          <%= link_to "Back", root_path, class: "btn btn-default"%>
+          <% if user_signed_in? && current_user == @message.user %>
+            <%= link_to "Edit", edit_message_path(@message), class: "btn btn-default" %>
+            <%= link_to "Delete", message_path(@message), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure" } %>
+          <% end %>
+        </div>
+      <% else %>
+        <p>This message either does not exist or has been deleted</p>
+      <% end %>
+    </div>
+  </div>
+</div>
